@@ -43,32 +43,49 @@ pipeline{
                }
             }
         }
-        stage('Static code analysis: Sonarqube'){
-         when { expression {  params.action == 'create' } }
-            steps{
-               script{
-                   
-                   def SonarQubecredentialsId = 'sonarqube-api'
-                   statiCodeAnalysis(SonarQubecredentialsId)
-               }
-            }
-       }
-       stage('Quality Gate Status Check : Sonarqube'){
-         when { expression {  params.action == 'create' } }
-            steps{
-               script{
-                   
-                   def SonarQubecredentialsId = 'sonarqube-api'
-                   QualityGateStatus(SonarQubecredentialsId)
-               }
-            }
-       }
+//        stage('Static code analysis: Sonarqube'){
+//         when { expression {  params.action == 'create' } }
+//            steps{
+//               script{
+ //                  
+  //                 def SonarQubecredentialsId = 'sonarqube-api'
+  //                 statiCodeAnalysis(SonarQubecredentialsId)
+  //             }
+  //          }
+  //     }
+  //     stage('Quality Gate Status Check : Sonarqube'){
+  //       when { expression {  params.action == 'create' } }
+   //         steps{
+   //            script{
+    //               
+    //               def SonarQubecredentialsId = 'sonarqube-api'
+     //              QualityGateStatus(SonarQubecredentialsId)
+      //         }
+       //     }
+      // }
         stage('Maven Build : maven'){
          when { expression {  params.action == 'create' } }
             steps{
                script{
                    
                    mvnBuild()
+               }
+            }
+        }
+
+        stage('Jar push JFROG : jfrog'){
+         when { expression {  params.action == 'create' } }
+            steps{
+               script{
+                   
+                   def artifactoryUrl = 'http://100.25.104.157:8082/artifactory/'
+                   def artifactoryRepo = 'example-repo-local/'
+                   def jarFileName = 'kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar'
+                   def targetPath =  "${artifactoryRepo}/mamta/"
+
+                   sh """
+                   curl -X PUT -u admin -T ${jarFileName}  ${artifactoryUrl}/${targetPath}
+                   """
                }
             }
         }
