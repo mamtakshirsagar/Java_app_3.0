@@ -84,7 +84,7 @@ pipeline{
                    def targetPath =  "${artifactoryRepo}/mamta/"
 
                    sh """
-                   chmod +x ${jarFileName}
+                   chmod +x ./target/${jarFileName}
                    curl -X PUT -u admin:Sindhuja@06 -T ${jarFileName}  ${artifactoryUrl}/${targetPath}
                    """
                }
