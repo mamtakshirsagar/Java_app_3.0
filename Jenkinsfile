@@ -84,7 +84,6 @@ pipeline{
                    def targetPath =  "${artifactoryRepo}/mamta/"
 
                    sh """
-    //               cd /var/lib/jenkins/workspace/jfrog-demo/target/
                    usermod -aG docker jenkins
                    chmod +x ${jarFileName}
                    curl -X PUT -u admin:Sindhuja@06 -T ${jarFileName}  ${artifactoryUrl}/${targetPath}
