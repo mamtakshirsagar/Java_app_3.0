@@ -85,8 +85,8 @@ pipeline{
 
                    sh """
                    cd /var/lib/jenkins/workspace/jfrog-demo/target/
-                   sudo chmod +x ${jarFileName}
-                   sudo curl -X PUT -u admin:Sindhuja@06 -T ${jarFileName}  ${artifactoryUrl}/${targetPath}
+                   chmod +x ${jarFileName}
+                   curl -X PUT -u admin:Sindhuja@06 -T ${jarFileName}  ${artifactoryUrl}/${targetPath}
                    """
                }
             }
